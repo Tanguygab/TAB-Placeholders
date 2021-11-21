@@ -3,6 +3,6 @@ version: 1.0.0
 main: io.github.tanguygab.tabplaceholders.TABPlaceholders
 api-version: 1.13
 authors: [ NEZNAMY, Tanguygab ]
-description: Adds more placeholders for TAB
+description: Adds some event-based PAPI placeholders to TAB
 depend: [TAB]
 softdepend: [MarriageMaster]

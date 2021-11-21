@@ -15,7 +15,7 @@ import me.neznamy.tab.shared.TAB;
 public class PlayerExpansion extends Expansion {
 	
 	private Listener player_exp;
-	private Listener level;
+	private Listener player_level;
 	
 	public PlayerExpansion(Plugin plugin) {
 		super(plugin);
@@ -39,15 +39,15 @@ public class PlayerExpansion extends Expansion {
 
 		PlayerPlaceholder lvl = manager.registerPlayerPlaceholder("%player_level%", -1, p -> ((Player)p.getPlayer()).getLevel());
 		lvl.enableTriggerMode(() -> {
-			player_exp = new Listener() {
+			player_level = new Listener() {
 
 				@EventHandler(priority = EventPriority.MONITOR)
 				public void onExpChange(PlayerLevelChangeEvent e) {
 					update(lvl,e.getPlayer(), e.getNewLevel());
 				}
 			};
-			register(player_exp);
-		}, () -> unregister(player_exp));
+			register(player_level);
+		}, () -> unregister(player_level));
 
 	}
 }
