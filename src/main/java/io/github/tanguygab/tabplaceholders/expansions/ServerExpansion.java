@@ -1,15 +1,12 @@
 package io.github.tanguygab.tabplaceholders.expansions;
 
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
 
-import me.neznamy.tab.api.placeholder.PlaceholderManager;
 import me.neznamy.tab.api.placeholder.ServerPlaceholder;
-import me.neznamy.tab.shared.TAB;
 
 public class ServerExpansion extends Expansion {
 
@@ -53,8 +50,6 @@ public class ServerExpansion extends Expansion {
 	 */
 	@Override
 	public void registerPlaceholders() {
-		PlaceholderManager manager = TAB.getInstance().getPlaceholderManager();
-		
 		manager.registerServerPlaceholder("%server_name%", -1, () -> plugin.getServer().getMotd()).enableTriggerMode();
 		
 		ServerPlaceholder online = manager.registerServerPlaceholder("%server_online%", -1, () -> plugin.getServer().getOnlinePlayers().size());

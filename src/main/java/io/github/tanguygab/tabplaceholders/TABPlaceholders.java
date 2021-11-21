@@ -15,26 +15,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public final class TABPlaceholders extends JavaPlugin implements Listener {
 
-    public Listener levelListener = null;
-
     @Override
     public void onEnable() {
         getServer().getPluginManager().registerEvents(this,this);
         reload();
     }
-
-    public void reload() {
-        PluginManager plm = getServer().getPluginManager();
-        PlaceholderManager pm = TabAPI.getInstance().getPlaceholderManager();
-
-        if (plm.isPluginEnabled("Marriage"))
-            new MarriageExpansion(this).registerPlaceholders();
-        new PlayerExpansion(this).registerPlaceholders();
-        new ServerExpansion(this).registerPlaceholders();
-
-    }
-
-
 
     @Override
     public void onDisable() {
@@ -44,6 +29,17 @@ public final class TABPlaceholders extends JavaPlugin implements Listener {
     @EventHandler
     public void onReload(TabLoadEvent e) {
         reload();
+    }
+
+    public void reload() {
+        PluginManager plm = getServer().getPluginManager();
+        PlaceholderManager pm = TabAPI.getInstance().getPlaceholderManager();
+
+        new PlayerExpansion(this).registerPlaceholders();
+        new ServerExpansion(this).registerPlaceholders();
+        if (plm.isPluginEnabled("Marriage"))
+            new MarriageExpansion(this).registerPlaceholders();
+
     }
 
 }

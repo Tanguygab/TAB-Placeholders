@@ -2,6 +2,7 @@ package io.github.tanguygab.tabplaceholders.expansions;
 
 import me.neznamy.tab.api.TabAPI;
 import me.neznamy.tab.api.TabPlayer;
+import me.neznamy.tab.api.placeholder.PlaceholderManager;
 import me.neznamy.tab.api.placeholder.PlayerPlaceholder;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
@@ -9,13 +10,17 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 
 import java.util.UUID;
+import java.util.function.Function;
 
 public abstract class Expansion {
 
 	protected Plugin plugin;
+	protected PlaceholderManager manager;
+	private String prefix;
 
 	public Expansion(Plugin plugin) {
 		this.plugin = plugin;
+		manager = TabAPI.getInstance().getPlaceholderManager();
 	}
 
 	public abstract void registerPlaceholders();
@@ -47,6 +52,12 @@ public abstract class Expansion {
 		pl.updateValue(p(p), value);
 	}
 
+	public void simpleRegisterPrefix(String prefix) {
+		this.prefix = prefix+"_";
+	}
+	public void simpleRegister(String name, Function<TabPlayer, Object> run) {
+		manager.registerPlayerPlaceholder("%"+prefix+name+"%",-1,run).enableTriggerMode();
+	}
 
 	public void register(Listener listener) {
 		plugin.getServer().getPluginManager().registerEvents(listener,plugin);

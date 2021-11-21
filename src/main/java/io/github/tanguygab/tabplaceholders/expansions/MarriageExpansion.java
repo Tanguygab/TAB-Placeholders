@@ -9,9 +9,7 @@ import com.lenis0012.bukkit.marriage2.events.PlayerDivorceEvent;
 import com.lenis0012.bukkit.marriage2.events.PlayerMarryEvent;
 import com.lenis0012.bukkit.marriage2.internal.MarriagePlugin;
 
-import me.neznamy.tab.api.placeholder.PlaceholderManager;
 import me.neznamy.tab.api.placeholder.PlayerPlaceholder;
-import me.neznamy.tab.shared.TAB;
 
 public class MarriageExpansion extends Expansion {
 	
@@ -41,8 +39,6 @@ public class MarriageExpansion extends Expansion {
 	 */
 	@Override
 	public void registerPlaceholders() {
-		PlaceholderManager manager = TAB.getInstance().getPlaceholderManager();
-		
 		PlayerPlaceholder isMarried = manager.registerPlayerPlaceholder("%marriage_is_married%", -1, p -> MarriagePlugin.getCore().getMPlayer(p.getUniqueId()).isMarried());
 		isMarried.enableTriggerMode(() -> {
 			marriage_is_married = new Listener() {
