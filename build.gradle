@@ -19,5 +19,5 @@ repositories {
 
 dependencies {
     compileOnly 'org.spigotmc:spigot-api:1.17-R0.1-SNAPSHOT'
-    compileOnly files('../TAB-3.0.jar','../MarriageMaster.jar')
+    compileOnly files('../TAB-3.0.jar','../MarriageMaster.jar','../EssX.jar')
 }

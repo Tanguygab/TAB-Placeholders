@@ -41,16 +41,15 @@ public class PlayerExpansion extends Expansion {
 	 * %player_first_join%
 	 * %player_first_played_formatted%
 	 * %player_gamemode%
-	 * %player_online%
+	 * %player_x%
+	 * %player_y%
+	 * %player_z%
 	 * %player_yaw%
 	 * %player_pitch%
 	 *
 	 * IN TAB:
 	 * Did anyways:
 	 *   %player_name% -> %player%
-	 *   %player_x% -> %xPos%
-	 *   %player_y% -> %yPos%
-	 *   %player_z% -> %zPos%
 	 *
 	 * %player_health% | %player_health_rounded%-> %health%
 	 * %player_ping% -> %ping%
@@ -60,6 +59,9 @@ public class PlayerExpansion extends Expansion {
 	 * %player_is_op%
 	 * %player_is_whitelisted%
 	 * %player_is_banned%
+	 *
+	 * USELESS:
+	 * %player_online%
 	 *
 	 * TODO:
 	 * %player_allow_flight%
@@ -190,26 +192,11 @@ public class PlayerExpansion extends Expansion {
 			player_gamemode = new Listener() {
 				@EventHandler
 				public void onGamemode(PlayerGameModeChangeEvent e) {
-					update(gamemode,e.getPlayer());
+					update(gamemode,e.getPlayer(),e.getNewGameMode().toString().toLowerCase());
 				}
 			};
 			register(player_gamemode);
 		},()->unregister(player_gamemode));
-
-		PlayerPlaceholder isOnline = manager.registerPlayerPlaceholder("%player_is_op%",-1,p->p(p).isOnline());
-		isOnline.enableTriggerMode(()->{
-			player_online = new Listener() {
-				@EventHandler
-				public void onJoin(PlayerJoinEvent e) {
-					update(isOnline,e.getPlayer(),true);
-				}
-				@EventHandler
-				public void onLeave(PlayerQuitEvent e) {
-					update(isOnline,e.getPlayer(),false);
-				}
-			};
-			register(player_online);
-		},()->unregister(player_online));
 
 		registerPosPlaceholder("X");
 		registerPosPlaceholder("Y");
