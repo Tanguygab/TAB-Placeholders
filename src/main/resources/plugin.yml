@@ -1,0 +1,8 @@
+name: TAB-Placeholders
+version: 1.0.0
+main: io.github.tanguygab.tabplaceholders.TABPlaceholders
+api-version: 1.13
+authors: [ NEZNAMY, Tanguygab ]
+description: Adds more placeholders for TAB
+depend: [TAB]
+softdepend: [MarriageMaster]
