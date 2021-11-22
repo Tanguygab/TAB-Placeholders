@@ -6,6 +6,10 @@ group = 'io.github.tanguygab'
 version = '1.0'
 
 repositories {
+    maven {
+        name = 'jitpack'
+        url = 'https://jitpack.io'
+    }
     mavenCentral()
     maven {
         name = 'spigotmc-repo'
@@ -15,9 +19,12 @@ repositories {
         name = 'sonatype'
         url = 'https://oss.sonatype.org/content/groups/public/'
     }
+
 }
 
 dependencies {
     compileOnly 'org.spigotmc:spigot-api:1.17-R0.1-SNAPSHOT'
-    compileOnly files('../TAB-3.0.jar','../MarriageMaster.jar','../EssX.jar')
+    compileOnly files('libs/TAB-3.0.0.jar','libs/Marriage.jar','libs/EssentialsX-2.19.0.jar')
+
+    compileOnly 'com.github.AlessioGr:NotQuests:2789631273'
 }
