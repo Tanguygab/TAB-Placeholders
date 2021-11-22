@@ -1,14 +1,8 @@
 package io.github.tanguygab.tabplaceholders.expansions;
 
-import com.earth2me.essentials.Essentials;
 import me.neznamy.tab.api.placeholder.PlaceholderManager;
 import me.neznamy.tab.api.placeholder.PlayerPlaceholder;
 import me.neznamy.tab.shared.TAB;
-import net.ess3.api.events.AfkStatusChangeEvent;
-import net.ess3.api.events.GodStatusChangeEvent;
-import net.ess3.api.events.NickChangeEvent;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
