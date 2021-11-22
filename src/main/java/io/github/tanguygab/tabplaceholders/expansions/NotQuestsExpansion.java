@@ -26,6 +26,8 @@ public class NotQuestsExpansion extends Expansion {
     }
 
     /**
+     * Plugin URL: https://www.spigotmc.org/resources/1-17-1-notquests-%E2%9A%A1-solid-quest-system-%E2%9C%85.95872/
+     *
      * DONE:
      * %notquests_player_questpoints%
      */

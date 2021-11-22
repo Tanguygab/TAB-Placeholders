@@ -1,9 +1,6 @@
 package io.github.tanguygab.tabplaceholders;
 
-import io.github.tanguygab.tabplaceholders.expansions.EssentialsExpansion;
-import io.github.tanguygab.tabplaceholders.expansions.MarriageExpansion;
-import io.github.tanguygab.tabplaceholders.expansions.PlayerExpansion;
-import io.github.tanguygab.tabplaceholders.expansions.ServerExpansion;
+import io.github.tanguygab.tabplaceholders.expansions.*;
 import me.neznamy.tab.platforms.bukkit.event.TabLoadEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
@@ -39,6 +36,8 @@ public final class TABPlaceholders extends JavaPlugin implements Listener {
             new MarriageExpansion(this).registerPlaceholders();
         if (plm.isPluginEnabled("Essentials"))
             new EssentialsExpansion(this).registerPlaceholders();
+        if (plm.isPluginEnabled("NotQuests"))
+            new NotQuestsExpansion(this).registerPlaceholders();
 
     }
 

@@ -25,5 +25,6 @@ repositories {
 dependencies {
     compileOnly 'org.spigotmc:spigot-api:1.17-R0.1-SNAPSHOT'
     compileOnly files('libs/TAB-3.0.0.jar','libs/MarriageMaster.jar','libs/EssentialsX-2.19.0.jar')
-    compileOnly 'com.github.AlessioGr:NotQuests:720ee34c14'
+
+    compileOnly 'com.github.AlessioGr:NotQuests:2789631273'
 }
