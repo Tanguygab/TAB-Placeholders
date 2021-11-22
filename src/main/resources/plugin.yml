@@ -5,4 +5,4 @@ api-version: 1.13
 authors: [ NEZNAMY, Tanguygab ]
 description: Adds some event-based PAPI placeholders to TAB
 depend: [TAB]
-softdepend: [Marriage,Essentials]
+softdepend: [Marriage,Essentials,NotQuests]
