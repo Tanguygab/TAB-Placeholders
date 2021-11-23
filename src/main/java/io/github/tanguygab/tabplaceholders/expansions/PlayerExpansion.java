@@ -14,6 +14,7 @@ import me.neznamy.tab.api.placeholder.PlayerPlaceholder;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -23,7 +24,6 @@ public class PlayerExpansion extends Expansion {
 	private Listener player_exp;
 	private Listener player_level;
 	private Listener player_gamemode;
-	private Listener player_online;
 	private Listener player_x;
 	private Listener player_y;
 	private Listener player_z;
@@ -230,7 +230,14 @@ public class PlayerExpansion extends Expansion {
 
 	private Object getLoc(Method method, Location loc) {
 		try {
-			return method.invoke(loc);
+			double num = 0;
+			Object obj = method.invoke(loc);
+			if (obj instanceof Double)
+				num = (double) obj;
+			if (obj instanceof Float)
+				num = Double.parseDouble(obj+"");
+			DecimalFormat format = new DecimalFormat("#.##");
+			return format.format(num);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "NaN";
