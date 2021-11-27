@@ -15,7 +15,7 @@ public class ServerExpansion extends Expansion {
 	private int uniqueJoinCount;
 	
 	public ServerExpansion(Plugin plugin) {
-		super(plugin);
+		super(plugin,"server");
 	}
 	
 	/**
@@ -50,30 +50,30 @@ public class ServerExpansion extends Expansion {
 	 */
 	@Override
 	public void registerPlaceholders() {
-		manager.registerServerPlaceholder("%server_name%", -1, () -> plugin.getServer().getMotd()).enableTriggerMode();
+		registerServer("name", () -> plugin.getServer().getMotd());
 		
-		ServerPlaceholder online = manager.registerServerPlaceholder("%server_online%", -1, () -> plugin.getServer().getOnlinePlayers().size());
+		ServerPlaceholder online = registerServer("online", () -> plugin.getServer().getOnlinePlayers().size());
 		online.enableTriggerMode(() -> {
 			server_online = new Listener() {
 				
 				@EventHandler
 				public void onJoin(PlayerJoinEvent e) {
-					online.updateValue(online.request());
+					update(online);
 				}
 				
 				@EventHandler
 				public void onQuit(PlayerQuitEvent e) {
-					online.updateValue(online.request());
+					update(online);
 				}
 			};
 			register(server_online);
 		}, () -> unregister(server_online));
 		
-		manager.registerServerPlaceholder("%server_version%", -1, () -> plugin.getServer().getBukkitVersion().split("-")[0]).enableTriggerMode();
+		registerServer("version", () -> plugin.getServer().getBukkitVersion().split("-")[0]);
+		registerServer("max_players", () -> plugin.getServer().getMaxPlayers());
+		registerServer("ram_max", () -> Runtime.getRuntime().maxMemory()/1048576L);
 		
-		manager.registerServerPlaceholder("%server_max_players%", -1, () -> plugin.getServer().getMaxPlayers()).enableTriggerMode();
-		
-		ServerPlaceholder uniqueJoins = manager.registerServerPlaceholder("%server_unique_joins%", -1, () -> plugin.getServer().getOfflinePlayers().length);
+		ServerPlaceholder uniqueJoins = registerServer("unique_joins",() -> plugin.getServer().getOfflinePlayers().length);
 		uniqueJoins.enableTriggerMode(() -> {
 			uniqueJoinCount = Integer.parseInt(uniqueJoins.request().toString());
 			server_unique_joins = new Listener() {
@@ -90,8 +90,7 @@ public class ServerExpansion extends Expansion {
 		}, () -> {
 			unregister(server_unique_joins);
 		});
-		
-		manager.registerServerPlaceholder("%server_ram_max%", -1, () -> Runtime.getRuntime().maxMemory()/1048576L).enableTriggerMode();
+
 
 	}
 }

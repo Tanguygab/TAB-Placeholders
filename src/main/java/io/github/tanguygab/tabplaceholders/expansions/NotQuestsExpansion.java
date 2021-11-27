@@ -1,6 +1,5 @@
 package io.github.tanguygab.tabplaceholders.expansions;
 
-import me.neznamy.tab.api.placeholder.PlaceholderManager;
 import me.neznamy.tab.api.placeholder.PlayerPlaceholder;
 import me.neznamy.tab.shared.TAB;
 import org.bukkit.event.EventHandler;
@@ -16,7 +15,7 @@ public class NotQuestsExpansion extends Expansion {
 
 
     public NotQuestsExpansion(Plugin plugin) {
-        super(plugin);
+        super(plugin,"notquests");
     }
 
     /**
@@ -27,12 +26,9 @@ public class NotQuestsExpansion extends Expansion {
      */
     @Override
     public void registerPlaceholders() {
-        PlaceholderManager manager = TAB.getInstance().getPlaceholderManager();
-
-
         NotQuests notQuests = NotQuests.getInstance();
 
-        PlayerPlaceholder questPoints = manager.registerPlayerPlaceholder("%notquests_player_questpoints%", -1, p -> notQuests.getQuestPlayerManager().getQuestPlayer(p.getUniqueId()) == null ? 0 : notQuests.getQuestPlayerManager().getQuestPlayer(p.getUniqueId()).getQuestPoints());
+        PlayerPlaceholder questPoints = registerPlayer("player_questpoints", p -> notQuests.getQuestPlayerManager().getQuestPlayer(p.getUniqueId()) == null ? 0 : notQuests.getQuestPlayerManager().getQuestPlayer(p.getUniqueId()).getQuestPoints());
         questPoints.enableTriggerMode(() -> {
             notquests_questpoints = new Listener() {
 

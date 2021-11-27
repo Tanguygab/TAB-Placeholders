@@ -35,6 +35,8 @@ public class EssentialsExpansion extends Expansion {
     }
 
     /**
+     * Plugin URL: https://essentialsx.net/
+     *
      * DONE:
      * %essentials_afk%
      * %essentials_afk_reason%
@@ -74,7 +76,7 @@ public class EssentialsExpansion extends Expansion {
 
     @Override
     public void registerPlaceholders() {
-        PlayerPlaceholder afk = simpleRegister("afk", p -> user(p).isAfk());
+        PlayerPlaceholder afk = registerPlayer("afk", p -> user(p).isAfk());
         afk.enableTriggerMode(() -> {
             essentials_afk = new Listener() {
 
@@ -86,7 +88,7 @@ public class EssentialsExpansion extends Expansion {
             register(essentials_afk);
         }, () -> unregister(essentials_afk));
 
-        PlayerPlaceholder afk_reason = simpleRegister("afk_reason", p -> {
+        PlayerPlaceholder afk_reason = registerPlayer("afk_reason", p -> {
             String msg = user(p).getAfkMessage();
             return msg == null ? "" : msg;
         });
@@ -104,7 +106,7 @@ public class EssentialsExpansion extends Expansion {
             register(essentials_afk_reason);
         }, () -> unregister(essentials_afk_reason));
 
-        PlayerPlaceholder god = simpleRegister("godmode", p -> user(p).isGodModeEnabled());
+        PlayerPlaceholder god = registerPlayer("godmode", p -> user(p).isGodModeEnabled());
         god.enableTriggerMode(() -> {
             essentials_godmode = new Listener() {
 
@@ -116,7 +118,7 @@ public class EssentialsExpansion extends Expansion {
             register(essentials_godmode);
         }, () -> unregister(essentials_godmode));
 
-        PlayerPlaceholder nick = simpleRegister("nickname", p -> user(p).getNickname() == null ? p.getName() : user(p).getNickname());
+        PlayerPlaceholder nick = registerPlayer("nickname", p -> user(p).getNickname() == null ? p.getName() : user(p).getNickname());
         nick.enableTriggerMode(() -> {
             essentials_nickname = new Listener() {
 
@@ -129,7 +131,7 @@ public class EssentialsExpansion extends Expansion {
             register(essentials_nickname);
         }, () -> unregister(essentials_nickname));
 
-        PlayerPlaceholder nickStripped = simpleRegister("nickname_stripped", p -> ChatColor.stripColor(ess.getUser(p.getUniqueId()).getNickname() == null ? p.getName() : ess.getUser(p.getUniqueId()).getNickname()));
+        PlayerPlaceholder nickStripped = registerPlayer("nickname_stripped", p -> ChatColor.stripColor(ess.getUser(p.getUniqueId()).getNickname() == null ? p.getName() : ess.getUser(p.getUniqueId()).getNickname()));
         nickStripped.enableTriggerMode(() -> {
             essentials_nickname_stripped = new Listener() {
 
@@ -142,7 +144,7 @@ public class EssentialsExpansion extends Expansion {
             register(essentials_nickname_stripped);
         }, () -> unregister(essentials_nickname_stripped));
 
-        PlayerPlaceholder fly = simpleRegister("fly",p->user(p).getBase().getAllowFlight());
+        PlayerPlaceholder fly = registerPlayer("fly", p->user(p).getBase().getAllowFlight());
         fly.enableTriggerMode(()->{
             essentials_fly = new Listener() {
 

@@ -167,7 +167,7 @@ public class PlayerExpansion extends Expansion {
 	
 	@Override
 	public void registerPlaceholders() {
-		PlayerPlaceholder exp = manager.registerPlayerPlaceholder("%player_exp%", -1, p -> p(p).getExp()/ p(p).getExpToLevel());
+		PlayerPlaceholder exp = registerPlayer("exp", p -> p(p).getExp()/ p(p).getExpToLevel());
 		exp.enableTriggerMode(() -> {
 			player_exp = new Listener() {
 				
@@ -180,7 +180,7 @@ public class PlayerExpansion extends Expansion {
 			register(player_exp);
 		}, () -> unregister(player_exp));
 
-		PlayerPlaceholder lvl = manager.registerPlayerPlaceholder("%player_level%", -1, p -> p(p).getLevel());
+		PlayerPlaceholder lvl = registerPlayer("level", p -> p(p).getLevel());
 		lvl.enableTriggerMode(() -> {
 			player_level = new Listener() {
 
@@ -192,16 +192,16 @@ public class PlayerExpansion extends Expansion {
 			register(player_level);
 		}, () -> unregister(player_level));
 
-		simpleRegister("ip", p->p(p).getAddress().getAddress().getHostAddress());
-		simpleRegister("uuid", TabPlayer::getUniqueId);
-		simpleRegister("name", TabPlayer::getName);
-		simpleRegister("first_join", p->p(p).getFirstPlayed());
-		simpleRegister("first_played", p->p(p).getFirstPlayed());
+		registerPlayer("ip", p->p(p).getAddress().getAddress().getHostAddress());
+		registerPlayer("uuid", TabPlayer::getUniqueId);
+		registerPlayer("name", TabPlayer::getName);
+		registerPlayer("first_join", p->p(p).getFirstPlayed());
+		registerPlayer("first_played", p->p(p).getFirstPlayed());
 		SimpleDateFormat dateFormat = getDateFormat();
-		simpleRegister("first_join_date", p-> dateFormat.format(new Date(p(p).getFirstPlayed())));
-		simpleRegister("first_played_formatted", p-> dateFormat.format(new Date(p(p).getFirstPlayed())));
+		registerPlayer("first_join_date", p-> dateFormat.format(new Date(p(p).getFirstPlayed())));
+		registerPlayer("first_played_formatted", p-> dateFormat.format(new Date(p(p).getFirstPlayed())));
 
-		PlayerPlaceholder gamemode = manager.registerPlayerPlaceholder("%player_gamemode%",-1,p->p(p).getGameMode().toString().toLowerCase());
+		PlayerPlaceholder gamemode = registerPlayer("gamemode",p->p(p).getGameMode().toString().toLowerCase());
 		gamemode.enableTriggerMode(()->{
 			player_gamemode = new Listener() {
 				@EventHandler
@@ -218,7 +218,7 @@ public class PlayerExpansion extends Expansion {
 		registerPosPlaceholder("Yaw");
 		registerPosPlaceholder("Pitch");
 
-		PlayerPlaceholder locale = manager.registerPlayerPlaceholder("%player_locale%",-1,p->p(p).getLocale());
+		PlayerPlaceholder locale = registerPlayer("locale",p->p(p).getLocale());
 		locale.enableTriggerMode(()->{
 			player_locale = new Listener() {
 				@EventHandler
@@ -229,13 +229,12 @@ public class PlayerExpansion extends Expansion {
 			register(player_locale);
 		},()->unregister(player_locale));
 
-		PlayerPlaceholder world = manager.registerPlayerPlaceholder("%player_world%",-1,p->p(p).getLocale());
+		PlayerPlaceholder world = registerPlayer("world",p->p(p).getLocale());
 		world.enableTriggerMode(()->{
 			player_world = new Listener() {
 				@EventHandler
-				public void onLocale(PlayerChangedWorldEvent e) {
-					Player p = e.getPlayer();
-					update(world,p,p.getWorld().getName());
+				public void onWorld(PlayerChangedWorldEvent e) {
+					update(world,e.getPlayer());
 				}
 			};
 			register(player_world);
@@ -249,7 +248,7 @@ public class PlayerExpansion extends Expansion {
 			Method getLoc = Location.class.getMethod("get"+name);
 			Field posListener = getClass().getDeclaredField("player_"+name.toLowerCase());
 
-			PlayerPlaceholder pos = manager.registerPlayerPlaceholder("%player_"+name.toLowerCase()+"%",-1,p-> getLoc(getLoc,p(p).getLocation()));
+			PlayerPlaceholder pos = registerPlayer(name.toLowerCase(),p-> getLoc(getLoc,p(p).getLocation()));
 			pos.enableTriggerMode(()->{
 				try {
 					posListener.set(this, new Listener() {

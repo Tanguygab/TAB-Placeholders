@@ -19,11 +19,16 @@ repositories {
         name = 'sonatype'
         url = 'https://oss.sonatype.org/content/groups/public/'
     }
+    maven {
+        name = 'ess-repo'
+        url = 'https://repo.essentialsx.net/releases/'
+    }
 
 }
 
 dependencies {
     compileOnly 'org.spigotmc:spigot-api:1.17-R0.1-SNAPSHOT'
-    compileOnly files('../TAB-3.0.0.jar','../Marriage.jar','../EssentialsX-2.19.1.jar')
+    compileOnly files('../TAB-3.0.0.jar','../Marriage.jar')
     compileOnly 'com.github.AlessioGr:NotQuests:2789631273'
+    compileOnly 'net.essentialsx:EssentialsX:2.19.0'
 }

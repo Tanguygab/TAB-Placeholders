@@ -15,13 +15,15 @@ public class MarriageExpansion extends Expansion {
 	
 	private Listener marriage_is_married;
 	private Listener marriage_partner;
-	
+
 	
 	public MarriageExpansion(Plugin plugin) {
-		super(plugin);
+		super(plugin,"marriage");
 	}
 
 	/**
+	 * Plugin URL: https://www.spigotmc.org/resources/marriage-reloaded-1-15-1-8.18998/
+	 *
 	 * DONE:
 	 * %marriage_is_married%
 	 * %marriage_partner%
@@ -39,7 +41,7 @@ public class MarriageExpansion extends Expansion {
 	 */
 	@Override
 	public void registerPlaceholders() {
-		PlayerPlaceholder isMarried = manager.registerPlayerPlaceholder("%marriage_is_married%", -1, p -> MarriagePlugin.getCore().getMPlayer(p.getUniqueId()).isMarried());
+		PlayerPlaceholder isMarried = registerPlayer("is_married", p -> MarriagePlugin.getCore().getMPlayer(p.getUniqueId()).isMarried());
 		isMarried.enableTriggerMode(() -> {
 			marriage_is_married = new Listener() {
 				
@@ -58,7 +60,7 @@ public class MarriageExpansion extends Expansion {
 			register(marriage_is_married);
 		}, () -> unregister(marriage_is_married));
 		
-		PlayerPlaceholder partner = manager.registerPlayerPlaceholder("%marriage_partner%", -1, p -> {
+		PlayerPlaceholder partner = registerPlayer("partner", p -> {
 			MPlayer player = MarriagePlugin.getCore().getMPlayer(p.getUniqueId());
 			return player.isMarried() ? p(player.getMarriage().getOtherPlayer(player.getUniqueId())).getName() : "";
 		});
