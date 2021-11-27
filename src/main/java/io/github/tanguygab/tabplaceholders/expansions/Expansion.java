@@ -16,10 +16,14 @@ public abstract class Expansion {
 
 	protected Plugin plugin;
 	protected PlaceholderManager manager;
-	private String prefix;
+	private final String prefix;
 
 	public Expansion(Plugin plugin) {
+		this(plugin,"");
+	}
+	public Expansion(Plugin plugin, String prefix) {
 		this.plugin = plugin;
+		this.prefix = prefix;
 		manager = TabAPI.getInstance().getPlaceholderManager();
 	}
 
@@ -52,11 +56,10 @@ public abstract class Expansion {
 		pl.updateValue(p(p), value);
 	}
 
-	public void simpleRegisterPrefix(String prefix) {
-		this.prefix = prefix+"_";
-	}
-	public void simpleRegister(String name, Function<TabPlayer, Object> run) {
-		manager.registerPlayerPlaceholder("%"+prefix+name+"%",-1,run).enableTriggerMode();
+	public PlayerPlaceholder simpleRegister(String name, Function<TabPlayer, Object> run) {
+		PlayerPlaceholder placeholder = manager.registerPlayerPlaceholder("%"+prefix+"_"+name+"%",-1,run);
+		placeholder.enableTriggerMode();
+		return placeholder;
 	}
 
 	public void register(Listener listener) {

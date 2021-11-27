@@ -162,7 +162,7 @@ public class PlayerExpansion extends Expansion {
 	 */
 	
 	public PlayerExpansion(Plugin plugin) {
-		super(plugin);
+		super(plugin,"player");
 	}
 	
 	@Override
@@ -192,7 +192,6 @@ public class PlayerExpansion extends Expansion {
 			register(player_level);
 		}, () -> unregister(player_level));
 
-		simpleRegisterPrefix("player");
 		simpleRegister("ip", p->p(p).getAddress().getAddress().getHostAddress());
 		simpleRegister("uuid", TabPlayer::getUniqueId);
 		simpleRegister("name", TabPlayer::getName);
