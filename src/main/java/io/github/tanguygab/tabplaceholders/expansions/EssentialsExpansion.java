@@ -74,7 +74,7 @@ public class EssentialsExpansion extends Expansion {
 
     @Override
     public void registerPlaceholders() {
-        PlayerPlaceholder afk = simpleRegister("%essentials_afk%", p -> user(p).isAfk());
+        PlayerPlaceholder afk = simpleRegister("afk", p -> user(p).isAfk());
         afk.enableTriggerMode(() -> {
             essentials_afk = new Listener() {
 
@@ -86,7 +86,7 @@ public class EssentialsExpansion extends Expansion {
             register(essentials_afk);
         }, () -> unregister(essentials_afk));
 
-        PlayerPlaceholder afk_reason = simpleRegister("%essentials_afk_reason%", p -> {
+        PlayerPlaceholder afk_reason = simpleRegister("afk_reason", p -> {
             String msg = user(p).getAfkMessage();
             return msg == null ? "" : msg;
         });
@@ -104,7 +104,7 @@ public class EssentialsExpansion extends Expansion {
             register(essentials_afk_reason);
         }, () -> unregister(essentials_afk_reason));
 
-        PlayerPlaceholder god = simpleRegister("%essentials_godmode%", p -> user(p).isGodModeEnabled());
+        PlayerPlaceholder god = simpleRegister("godmode", p -> user(p).isGodModeEnabled());
         god.enableTriggerMode(() -> {
             essentials_godmode = new Listener() {
 
@@ -116,7 +116,7 @@ public class EssentialsExpansion extends Expansion {
             register(essentials_godmode);
         }, () -> unregister(essentials_godmode));
 
-        PlayerPlaceholder nick = simpleRegister("%essentials_nickname%", p -> user(p).getNickname() == null ? p.getName() : user(p).getNickname());
+        PlayerPlaceholder nick = simpleRegister("nickname", p -> user(p).getNickname() == null ? p.getName() : user(p).getNickname());
         nick.enableTriggerMode(() -> {
             essentials_nickname = new Listener() {
 
@@ -129,7 +129,7 @@ public class EssentialsExpansion extends Expansion {
             register(essentials_nickname);
         }, () -> unregister(essentials_nickname));
 
-        PlayerPlaceholder nickStripped = simpleRegister("%essentials_nickname_stripped%", p -> ChatColor.stripColor(ess.getUser(p.getUniqueId()).getNickname() == null ? p.getName() : ess.getUser(p.getUniqueId()).getNickname()));
+        PlayerPlaceholder nickStripped = simpleRegister("nickname_stripped", p -> ChatColor.stripColor(ess.getUser(p.getUniqueId()).getNickname() == null ? p.getName() : ess.getUser(p.getUniqueId()).getNickname()));
         nickStripped.enableTriggerMode(() -> {
             essentials_nickname_stripped = new Listener() {
 
