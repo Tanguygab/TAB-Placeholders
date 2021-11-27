@@ -64,12 +64,16 @@ public abstract class Expansion {
 		pl.updateValue(pl.request());
 	}
 
+
 	public void register(Listener listener) {
 		plugin.getServer().getPluginManager().registerEvents(listener,plugin);
 	}
-
 	public void unregister(Listener listener) {
 		HandlerList.unregisterAll(listener);
+	}
+
+	public void delay(Runnable run) {
+		plugin.getServer().getScheduler().runTaskLater(plugin,run,1);
 	}
 
 }

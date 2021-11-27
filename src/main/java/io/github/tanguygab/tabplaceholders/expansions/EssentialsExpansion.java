@@ -2,21 +2,24 @@ package io.github.tanguygab.tabplaceholders.expansions;
 
 import com.earth2me.essentials.User;
 import me.neznamy.tab.api.TabPlayer;
+import me.neznamy.tab.api.placeholder.ServerPlaceholder;
 import net.ess3.api.IUser;
-import net.ess3.api.events.FlyStatusChangeEvent;
+import net.ess3.api.events.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
 
 import com.earth2me.essentials.Essentials;
 
 import me.neznamy.tab.api.placeholder.PlayerPlaceholder;
-import net.ess3.api.events.AfkStatusChangeEvent;
-import net.ess3.api.events.GodStatusChangeEvent;
-import net.ess3.api.events.NickChangeEvent;
+
+import java.util.stream.StreamSupport;
 
 public class EssentialsExpansion extends Expansion {
 
@@ -26,6 +29,7 @@ public class EssentialsExpansion extends Expansion {
     private Listener essentials_nickname;
     private Listener essentials_nickname_stripped;
     private Listener essentials_fly;
+    private Listener essentials_safe_online;
 
     private final Essentials ess;
 
@@ -99,7 +103,7 @@ public class EssentialsExpansion extends Expansion {
                 public void onAfkChange(AfkStatusChangeEvent e) {
                     //message is not updated in event and getter is missing
                     IUser user = e.getAffected();
-                    Bukkit.getScheduler().runTaskLater(plugin, () -> update(afk_reason,user.getBase(), user.getAfkMessage() == null ? "" : user.getAfkMessage()), 1);
+                    delay(() -> update(afk_reason,user.getBase(), user.getAfkMessage() == null ? "" : user.getAfkMessage()));
                 }
             };
             register(essentials_afk_reason);
@@ -155,14 +159,41 @@ public class EssentialsExpansion extends Expansion {
             register(essentials_fly);
 
         },()->unregister(essentials_fly));
+
+        ServerPlaceholder safeOnline = registerServer("safe_online", () -> StreamSupport.stream(ess.getOnlineUsers().spliterator(), false)
+                .filter(user1 -> !user1.isHidden())
+                .count());
+        safeOnline.enableTriggerMode(() -> {
+            essentials_safe_online = new Listener() {
+
+                @EventHandler
+                public void onJoin(PlayerJoinEvent e) {
+                    delay(()->update(safeOnline));
+                }
+
+                @EventHandler
+                public void onVanish(VanishStatusChangeEvent e) {
+                    delay(()->update(safeOnline));
+                }
+
+                @EventHandler
+                public void onQuit(PlayerQuitEvent e) {
+                    delay(()->update(safeOnline));
+                }
+            };
+            register(essentials_safe_online);
+        }, () -> unregister(essentials_safe_online));
+
     }
 
     private User user(TabPlayer p) {
         return ess.getUser(p.getUniqueId());
     }
+    private User user(Player p) {
+        return ess.getUser(p.getUniqueId());
+    }
     private TabPlayer player(IUser p) {
         return p(p.getBase().getUniqueId());
     }
-
 
 }
