@@ -29,6 +29,8 @@ public class PlayerExpansion extends Expansion {
 	private Listener player_z;
 	private Listener player_yaw;
 	private Listener player_pitch;
+	private Listener player_locale;
+	private Listener player_world;
 
 	/**
 	 * DONE:
@@ -46,13 +48,14 @@ public class PlayerExpansion extends Expansion {
 	 * %player_z%
 	 * %player_yaw%
 	 * %player_pitch%
+	 * %player_locale%
+	 * %player_world%
 	 *
 	 * IN TAB:
 	 * Did anyways:
 	 *   %player_name% -> %player%
-	 *
 	 * %player_health% | %player_health_rounded%-> %health%
-	 * %player_ping% -> %ping%
+	 * %player_ping% | %player_colored_ping% -> %ping%
 	 * %player_displayname% -> %displayname%
 	 *
 	 * NO EVENT:
@@ -60,11 +63,11 @@ public class PlayerExpansion extends Expansion {
 	 * %player_is_whitelisted%
 	 * %player_is_banned%
 	 *
-	 * USELESS:
+	 * WONT DO:
 	 * %player_online%
+	 * %player_ping_<playername>%
 	 *
 	 * TODO:
-	 * %player_allow_flight%
 	 * %player_armor_helmet_name%
 	 * %player_armor_helmet_data%
 	 * %player_armor_chestplate_name%
@@ -73,36 +76,53 @@ public class PlayerExpansion extends Expansion {
 	 * %player_armor_leggings_data%
 	 * %player_armor_boots_name%
 	 * %player_armor_boots_data%
+	 *
 	 * %player_bed_x%
 	 * %player_bed_y%
 	 * %player_bed_z%
 	 * %player_bed_world%
-	 * %player_biome%
-	 * %player_biome_capitalized%
-	 * %player_can_pickup_items%
-	 * %player_colored_ping%
+	 *
+	 * %player_allow_flight%
+	 * %player_fly_speed%
+	 * %player_walk_speed%
+	 * %player_direction%
+	 * %player_direction_xz%
+	 *
 	 * %player_compass_world%
 	 * %player_compass_x%
 	 * %player_compass_y%
 	 * %player_compass_z%
+	 *
+	 * %player_biome%
+	 * %player_biome_capitalized%
+	 *
 	 * %player_custom_name%
+	 *
 	 * %player_current_exp%
-	 * %player_direction%
-	 * %player_direction_xz%
 	 * %player_exp_to_level%
-	 * %player_fly_speed%
+	 * %player_total_exp%
+	 *
 	 * %player_food_level%
-	 * %player_has_empty_slot%
+	 * %player_max_air%
+	 * %player_max_health%
+	 * %player_max_health_rounded%
+	 * %player_remaining_air%
+	 * %player_saturation%
+	 * %player_health_scale%
+	 *
 	 * %player_has_played_before%
-	 * %player_empty_slots%
 	 * %player_has_potioneffect_<effect>%
 	 * %player_has_permission_<permission>%
-	 * %player_health_scale%
+	 *
 	 * %player_is_flying%
 	 * %player_is_sneaking%
 	 * %player_is_sprinting%
 	 * %player_is_sleeping%
 	 * %player_is_inside_vehicle%
+	 *
+	 * %player_empty_slots%
+	 * %player_can_pickup_items%
+	 * %player_has_empty_slot%
 	 * %player_item_in_hand%
 	 * %player_item_in_hand_name%
 	 * %player_item_in_hand_data%
@@ -111,36 +131,31 @@ public class PlayerExpansion extends Expansion {
 	 * %player_item_in_offhand_name%
 	 * %player_item_in_offhand_data%
 	 * %player_item_in_offhand_level_<enchantment>%
-	 * %player_locale%
+	 *
 	 * %player_locale_display_name%
 	 * %player_locale_short%
 	 * %player_locale_country%
 	 * %player_locale_display_country%
-	 * %player_last_damage%
+	 *
 	 * %player_last_played%
 	 * %player_last_join%
 	 * %player_last_played_formatted%
 	 * %player_last_join_date%
-	 * %player_light_level%
-	 * %player_max_air%
-	 * %player_max_health%
-	 * %player_max_health_rounded%
-	 * %player_max_no_damage_ticks%
+	 *
 	 * %player_minutes_lived%
-	 * %player_no_damage_ticks%
-	 * %player_ping_<playername>%
-	 * %player_remaining_air%
-	 * %player_saturation%
 	 * %player_seconds_lived%
-	 * %player_sleep_ticks%
-	 * %player_thunder_duration%
 	 * %player_ticks_lived%
+	 * %player_sleep_ticks%
+	 * %player_no_damage_ticks%
+	 * %player_max_no_damage_ticks%
+	 * %player_last_damage%
 	 * %player_time%
 	 * %player_time_offset%
-	 * %player_total_exp%
-	 * %player_walk_speed%
+	 *
+	 * %player_light_level%
+	 * %player_thunder_duration%
 	 * %player_weather_duration%
-	 * %player_world%
+	 *
 	 * %player_world_type%
 	 * %player_world_time_12%
 	 * %player_world_time_24%
@@ -203,6 +218,30 @@ public class PlayerExpansion extends Expansion {
 		registerPosPlaceholder("Z");
 		registerPosPlaceholder("Yaw");
 		registerPosPlaceholder("Pitch");
+
+		PlayerPlaceholder locale = manager.registerPlayerPlaceholder("%player_locale%",-1,p->p(p).getLocale());
+		locale.enableTriggerMode(()->{
+			player_locale = new Listener() {
+				@EventHandler
+				public void onLocale(PlayerLocaleChangeEvent e) {
+					update(locale,e.getPlayer(),e.getLocale());
+				}
+			};
+			register(player_locale);
+		},()->unregister(player_locale));
+
+		PlayerPlaceholder world = manager.registerPlayerPlaceholder("%player_world%",-1,p->p(p).getLocale());
+		world.enableTriggerMode(()->{
+			player_world = new Listener() {
+				@EventHandler
+				public void onLocale(PlayerChangedWorldEvent e) {
+					Player p = e.getPlayer();
+					update(world,p,p.getWorld().getName());
+				}
+			};
+			register(player_world);
+		},()->unregister(player_world));
+
 
 	}
 
