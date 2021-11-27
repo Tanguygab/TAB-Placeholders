@@ -99,8 +99,7 @@ public class EssentialsExpansion extends Expansion {
                 public void onAfkChange(AfkStatusChangeEvent e) {
                     //message is not updated in event and getter is missing
                     IUser user = e.getAffected();
-                    String msg = user.getAfkMessage() == null ? "" : user.getAfkMessage();
-                    Bukkit.getScheduler().runTaskLater(plugin, () -> update(afk_reason,user.getBase(), msg), 1);
+                    Bukkit.getScheduler().runTaskLater(plugin, () -> update(afk_reason,user.getBase(), user.getAfkMessage() == null ? "" : user.getAfkMessage()), 1);
                 }
             };
             register(essentials_afk_reason);
