@@ -48,6 +48,7 @@ public class EssentialsExpansion extends Expansion {
      * %essentials_nickname%
      * %essentials_nickname_stripped%
      * %essentials_fly%
+     * %essentials_safe_online%
      *
      * TODO:
      * %essentials_has_kit_<kitname>%
@@ -67,7 +68,6 @@ public class EssentialsExpansion extends Expansion {
      * %essentials_kit_time_until_available_raw_<kitname>%
      * %essentials_msg_ignore%
      * %essentials_pm_recipient%
-     * %essentials_safe_online%
      * %essentials_unique%
      * %essentials_vanished%
      * %essentials_world_date%
