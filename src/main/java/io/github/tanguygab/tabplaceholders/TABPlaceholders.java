@@ -22,6 +22,7 @@ public final class TABPlaceholders extends JavaPlugin {
     private final Map<Function<Plugin, Expansion>, String> allExpansions = new HashMap<>(){{
         put(PlayerExpansion::new, null);
         put(ServerExpansion::new, null);
+        put(StatisticExpansion::new, null);
         put(MarriageExpansion::new, "Marriage");
         put(EssentialsExpansion::new, "Essentials");
         put(NotQuestsExpansion::new, "NotQuests");
