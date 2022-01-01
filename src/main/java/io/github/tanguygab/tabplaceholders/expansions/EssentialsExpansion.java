@@ -41,7 +41,7 @@ public class EssentialsExpansion extends Expansion {
     /**
      * Plugin URL: https://essentialsx.net/
      *
-     * DONE:
+     * DONE (7/31):
      * %essentials_afk%
      * %essentials_afk_reason%
      * %essentials_godmode%

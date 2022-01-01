@@ -1,7 +1,7 @@
 package io.github.tanguygab.tabplaceholders.expansions;
 
+import me.neznamy.tab.api.TabAPI;
 import me.neznamy.tab.api.TabPlayer;
-import me.neznamy.tab.shared.TAB;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -33,7 +33,7 @@ public class PlayerExpansion extends Expansion {
 	private Listener player_world;
 
 	/**
-	 * DONE:
+	 * DONE (19 / ?):
 	 * %player_level%
 	 * %player_exp%
 	 * %player_uuid%
@@ -50,10 +50,11 @@ public class PlayerExpansion extends Expansion {
 	 * %player_pitch%
 	 * %player_locale%
 	 * %player_world%
+	 * %player_online%
+	 * %player_name%
+	 * %player_has_played_before%
 	 *
-	 * IN TAB:
-	 * Did anyways:
-	 *   %player_name% -> %player%
+	 * TODO:
 	 * %player_health% | %player_health_rounded%-> %health%
 	 * %player_ping% | %player_colored_ping% -> %ping%
 	 * %player_displayname% -> %displayname%
@@ -63,11 +64,7 @@ public class PlayerExpansion extends Expansion {
 	 * %player_is_whitelisted%
 	 * %player_is_banned%
 	 *
-	 * WONT DO:
-	 * %player_online%
 	 * %player_ping_<playername>%
-	 *
-	 * TODO:
 	 * %player_armor_helmet_name%
 	 * %player_armor_helmet_data%
 	 * %player_armor_chestplate_name%
@@ -76,32 +73,25 @@ public class PlayerExpansion extends Expansion {
 	 * %player_armor_leggings_data%
 	 * %player_armor_boots_name%
 	 * %player_armor_boots_data%
-	 *
 	 * %player_bed_x%
 	 * %player_bed_y%
 	 * %player_bed_z%
 	 * %player_bed_world%
-	 *
 	 * %player_allow_flight%
 	 * %player_fly_speed%
 	 * %player_walk_speed%
 	 * %player_direction%
 	 * %player_direction_xz%
-	 *
 	 * %player_compass_world%
 	 * %player_compass_x%
 	 * %player_compass_y%
 	 * %player_compass_z%
-	 *
 	 * %player_biome%
 	 * %player_biome_capitalized%
-	 *
 	 * %player_custom_name%
-	 *
 	 * %player_current_exp%
 	 * %player_exp_to_level%
 	 * %player_total_exp%
-	 *
 	 * %player_food_level%
 	 * %player_max_air%
 	 * %player_max_health%
@@ -109,8 +99,6 @@ public class PlayerExpansion extends Expansion {
 	 * %player_remaining_air%
 	 * %player_saturation%
 	 * %player_health_scale%
-	 *
-	 * %player_has_played_before%
 	 * %player_has_potioneffect_<effect>%
 	 * %player_has_permission_<permission>%
 	 *
@@ -200,6 +188,8 @@ public class PlayerExpansion extends Expansion {
 		SimpleDateFormat dateFormat = getDateFormat();
 		registerPlayer("first_join_date", p-> dateFormat.format(new Date(p(p).getFirstPlayed())));
 		registerPlayer("first_played_formatted", p-> dateFormat.format(new Date(p(p).getFirstPlayed())));
+		registerPlayer("online", TabPlayer::isOnline);
+		registerPlayer("has_played_before", p -> ((Player) p.getPlayer()).hasPlayedBefore());
 
 		PlayerPlaceholder gamemode = registerPlayer("gamemode",p->p(p).getGameMode().toString().toLowerCase());
 		gamemode.enableTriggerMode(()->{
@@ -292,7 +282,7 @@ public class PlayerExpansion extends Expansion {
 
 	private SimpleDateFormat getDateFormat() {
 		try {
-			return new SimpleDateFormat(TAB.getInstance().getConfiguration().getConfig().getString("placeholders.date-format", "dd.MM.yyyy"), Locale.ENGLISH);
+			return new SimpleDateFormat(TabAPI.getInstance().getConfig().getString("placeholders.date-format", "dd.MM.yyyy"), Locale.ENGLISH);
 		} catch (IllegalArgumentException e) {return new SimpleDateFormat("dd.MM.yyyy");}
 	}
 }

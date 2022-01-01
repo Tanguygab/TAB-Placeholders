@@ -2,6 +2,7 @@ package io.github.tanguygab.tabplaceholders.expansions;
 
 import me.neznamy.tab.api.TabAPI;
 import me.neznamy.tab.api.TabPlayer;
+import me.neznamy.tab.api.placeholder.Placeholder;
 import me.neznamy.tab.api.placeholder.PlaceholderManager;
 import me.neznamy.tab.api.placeholder.PlayerPlaceholder;
 import me.neznamy.tab.api.placeholder.ServerPlaceholder;
@@ -27,6 +28,10 @@ public abstract class Expansion {
 	}
 
 	public abstract void registerPlaceholders();
+
+	public Placeholder onPlaceholderRegister(String identifier) {
+		return null;
+	}
 
 	public TabPlayer p(Player p) {
 		return TabAPI.getInstance().getPlayer(p.getUniqueId());

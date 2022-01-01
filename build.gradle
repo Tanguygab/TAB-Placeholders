@@ -23,12 +23,14 @@ repositories {
         name = 'ess-repo'
         url = 'https://repo.essentialsx.net/releases/'
     }
+ad%%    maven { url 'https://repo.kryptonmc.org/releases' }
 
 }
 
 dependencies {
     compileOnly 'org.spigotmc:spigot-api:1.17-R0.1-SNAPSHOT'
-    compileOnly files('../TAB-3.0.0.jar','../Marriage.jar')
+    //compileOnly 'me.neznamy:tab-api:3.0.2-pre1'
+    compileOnly files('libs/TAB.jar', 'libs/Marriage.jar')
     compileOnly 'com.github.AlessioGr:NotQuests:2789631273'
     compileOnly 'net.essentialsx:EssentialsX:2.19.0'
 }
