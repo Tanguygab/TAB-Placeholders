@@ -23,7 +23,7 @@ repositories {
         name = 'ess-repo'
         url = 'https://repo.essentialsx.net/releases/'
     }
-ad%%    maven { url 'https://repo.kryptonmc.org/releases' }
+    maven { url 'https://repo.kryptonmc.org/releases' }
 
 }
 
